@@ -6,7 +6,9 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -151,5 +153,56 @@ public class UsingSeleniumTest {
     }
 
 
+    @Test
+    public void waitVisibility(){
+        // Initialize WebDriver
+        WebDriver driver = new ChromeDriver();
+
+        // Navigate to the dynamic loading example page
+        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
+
+        // Find and click the start button
+        WebElement startButton = driver.findElement(By.xpath("//div[@id='start']/button"));
+        startButton.click();
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5)); // 10 seconds timeout
+
+        // Wait until the loading indicator disappears and "Hello World!" text becomes visible
+        WebElement helloWorldText = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='finish']/h4")));
+
+        // Print the visible text
+        System.out.println("Visible Text: " + helloWorldText.getText());
+
+        // Close the browser
+        driver.quit();
+    }
+
+
+
+    @Test
+    public void pagination(){
+        // Initialize WebDriver
+        WebDriver driver = new ChromeDriver();
+
+        // Navigate to the dynamic loading example page
+        driver.get("https://pagination.js.org/");
+
+        // Find and click the start button
+        WebElement demo1 = driver.findElement(By.cssSelector("#demo1"));
+        List<WebElement> items = demo1.findElements(By.cssSelector(".data-container ul li"));
+        List<WebElement> pagination = demo1.findElements(By.cssSelector(".paginationjs-pages ul li"));
+
+        pagination.get(2).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.stalenessOf(items.get(0)));
+
+        items = demo1.findElements(By.cssSelector(".data-container ul li"));
+        assertTrue(items.get(0).getText().equals("11"));
+
+        // Close the browser
+        driver.quit();
+    }
 
 }
