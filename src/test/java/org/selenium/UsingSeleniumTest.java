@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -53,7 +54,7 @@ public class UsingSeleniumTest {
 
 
     @Test
-    public void slider(){
+    public void slider() {
         // Initialize WebDriver
         WebDriver driver = new ChromeDriver();
 
@@ -80,7 +81,7 @@ public class UsingSeleniumTest {
 
 
     @Test
-    public void dragAndDrop(){
+    public void dragAndDrop() {
         // Initialize WebDriver
         WebDriver driver = new ChromeDriver();
 
@@ -108,7 +109,7 @@ public class UsingSeleniumTest {
 
 
     @Test
-    public void dropDwownExample(){
+    public void dropDwownExample() {
 
         WebDriver driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/dropdown");
@@ -137,7 +138,7 @@ public class UsingSeleniumTest {
     }
 
     @Test
-    public void sliderExample(){
+    public void sliderExample() {
         WebDriver driver = new ChromeDriver();
         driver.get("https://jqueryui.com/slider/");
 
@@ -154,7 +155,7 @@ public class UsingSeleniumTest {
 
 
     @Test
-    public void waitVisibility(){
+    public void waitVisibility() {
         // Initialize WebDriver
         WebDriver driver = new ChromeDriver();
 
@@ -179,9 +180,8 @@ public class UsingSeleniumTest {
     }
 
 
-
     @Test
-    public void pagination(){
+    public void pagination() {
         // Initialize WebDriver
         WebDriver driver = new ChromeDriver();
 
@@ -203,6 +203,172 @@ public class UsingSeleniumTest {
 
         // Close the browser
         driver.quit();
+    }
+
+
+    //-------------------
+    @Test
+    public void explicitWait1() {
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+
+        driver.get("https://the-internet.herokuapp.com/dynamic_controls");
+
+        // Click the Remove button and wait for the "It's gone!" message
+        driver.findElement(By.xpath("//button[contains(text(),'Remove')]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("message")));
+        String goneMessage = driver.findElement(By.id("message")).getText();
+        System.out.println("Message after removing: " + goneMessage);
+
+        // Click the Add button and wait for the checkbox to appear
+        driver.findElement(By.xpath("//button[contains(text(),'Add')]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='checkbox']")));
+        System.out.println("Checkbox is added back.");
+
+    }
+
+
+    @Test
+    public void acceptAlertTest() {
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+
+        // Click the button to trigger the alert
+        driver.findElement(By.xpath("//button[text()='Click for JS Alert']")).click();
+
+        // Accept the alert
+        driver.switchTo().alert().accept();
+
+        System.out.println("Alert has been accepted.");
+    }
+
+    @Test
+    public void dissmissAlertTest() {
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+
+        // Click the button to trigger the confirmation dialog
+        driver.findElement(By.xpath("//button[text()='Click for JS Confirm']")).click();
+
+        // Dismiss the confirmation dialog
+        driver.switchTo().alert().dismiss();
+
+        // Verify the result
+        String resultText = driver.findElement(By.id("result")).getText();
+        System.out.println("Confirmation Result: " + resultText);
+    }
+
+    @Test
+    public void sendtextAlertTest() {
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+
+        // Click the button to trigger the prompt
+        driver.findElement(By.xpath("//button[text()='Click for JS Prompt']")).click();
+
+        // Send text to the prompt and accept it
+        String textToSend = "Selenium Test";
+        driver.switchTo().alert().sendKeys(textToSend);
+        driver.switchTo().alert().accept();
+
+        // Verify the result
+        String resultText = driver.findElement(By.id("result")).getText();
+        System.out.println("Prompt Result: " + resultText);
+
+        // Assert the expected result text
+        String expectedText = "You entered: " + textToSend;
+        if (resultText.equals(expectedText)) {
+            System.out.println("Test Passed: The expected text matches the result.");
+        } else {
+            System.out.println("Test Failed: The expected text does not match the result.");
+        }
+    }
+
+    @Test
+    public void newTabTest() {
+        WebDriver driver = new ChromeDriver();
+
+        // Step 1: Navigate to the page
+        driver.get("https://the-internet.herokuapp.com/windows");
+
+        // Step 2: Click the link to open a new window/tab
+        WebElement link = driver.findElement(By.linkText("Click Here"));
+        link.click();
+
+        // Step 3: Switch to the new window/tab
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1)); // Switches to the new tab
+
+        // Step 4: Verify the new tab's content
+        WebElement header = driver.findElement(By.tagName("h3"));
+        String headerText = header.getText();
+        System.out.println("New Tab Header Text: " + headerText);
+
+        // Assuming we're checking for a specific header text
+        if ("New Window".equals(headerText)) {
+            System.out.println("Test Passed: Correct header text found in the new tab.");
+        } else {
+            System.out.println("Test Failed: Incorrect header text in the new tab.");
+        }
+
+        // Step 5: Close the new tab and switch back to the original tab
+        driver.close();
+        driver.switchTo().window(tabs.get(0));
+
+        // Optional: Perform additional actions on the original tab if necessary
+        // For demonstration, print the URL of the original tab
+        System.out.println("Original Tab URL: " + driver.getCurrentUrl());
+
+    }
+
+    @Test
+    public void nestedFramesTest() {
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://the-internet.herokuapp.com/frames");
+        driver.findElement(By.linkText("Nested Frames")).click();
+
+        // Switch to the top frame
+        driver.switchTo().frame("frame-top");
+
+        // Now switch to the left frame within the top frame and verify the text
+        driver.switchTo().frame("frame-left");
+        System.out.println("Left Frame Text: " + driver.findElement(By.tagName("body")).getText());
+
+        // You would need to switch back to the parent frame to switch to another child frame
+        driver.switchTo().parentFrame(); // Back to the top frame
+
+        // Switch to the middle frame and verify the text
+        // Repeat as necessary for other frames
+
+        // Finally, switch back to the default content
+        driver.switchTo().defaultContent();
+
+    }
+
+    @Test
+    public void editinIframeTest() {
+        WebDriver driver = new ChromeDriver();
+
+        driver.get("https://the-internet.herokuapp.com/frames");
+        driver.findElement(By.linkText("iFrame")).click();
+
+        // Switch to the iFrame by ID
+        driver.switchTo().frame("mce_0_ifr");
+
+        // Clear the existing content in the editable area and type new text
+        WebElement editable = driver.findElement(By.id("tinymce"));
+        editable.clear();
+        editable.sendKeys("Testing iFrame content editing.");
+
+        // Verify the new content or perform other actions
+
+        // Remember to switch back when done
+        driver.switchTo().defaultContent();
     }
 
 }
