@@ -8,33 +8,44 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
-public class LoginTest {
-    private WebDriver driver;
-
-    @BeforeMethod
-    public void setUp() {
-        driver = new ChromeDriver();
-        driver.get("https://www.saucedemo.com/");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
-    }
+public class LoginTest extends MainTest{
+    private LoginPage loginPage;
+    private ProductsPage productsPage;
 
     @Test
     public void testSuccessfulLogin() {
-        LoginPage loginPage = new LoginPage(driver);
+        loginPage = new LoginPage(driver);
         loginPage.setUsername("standard_user");
         loginPage.setPassword("secret_sauce");
-        ProductsPage productsPage = loginPage.clickLoginButton();
+        loginPage.clickLoginButton();
 
         Assert.assertEquals(productsPage.getPageTitle(), "Products");
     }
 
-    @AfterMethod
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+
+    @Test
+    public void testNegativeWithEmptyCredentials() {
+        SoftAssert soft = new SoftAssert();
+        loginPage = new LoginPage(driver);
+
+        loginPage.setUsername("");
+        loginPage.setPassword("secret_sauce");
+        loginPage.clickLoginButton();
+
+        soft.assertEquals(loginPage.getErrorMessage(), "Epic sadface: Username is required");
+
+        loginPage.setUsername("standard_user");
+        loginPage.setPassword("");
+        loginPage.clickLoginButton();
+
+        soft.assertEquals(loginPage.getErrorMessage(), "Epic sadface: Password is required");
+
+        soft.assertAll();
+
     }
+
 }

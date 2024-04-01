@@ -20,4 +20,8 @@ public class ProductsPage {
     public String getPageTitle() {
         return pageTitle.getText();
     }
+
+    public HeaderComponent header (){
+        return new HeaderComponent(driver);
+    }
 }
