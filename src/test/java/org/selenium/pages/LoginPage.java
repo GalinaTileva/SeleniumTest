@@ -6,7 +6,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends BasePage {
-    // private WebDriver driver;
 
     @FindBy(id = "user-name")
     private WebElement usernameField;

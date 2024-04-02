@@ -1,5 +1,6 @@
 package org.selenium;
 
+import org.selenium.base.MainTest;
 import org.selenium.pages.LoginPage;
 import org.selenium.pages.ProductsPage;
 import org.testng.annotations.BeforeMethod;
