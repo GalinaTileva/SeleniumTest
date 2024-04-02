@@ -1,6 +1,7 @@
 package org.selenium.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -33,5 +34,14 @@ public class BasePage {
 
     public void waitForElementToBeStale(WebElement element) {
         wait.until(ExpectedConditions.stalenessOf(element));
+    }
+
+    public void clickWithJS(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+    }
+
+    // Scroll an element into view using JavaScript
+    public void scrollIntoViewWithJS(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 }
