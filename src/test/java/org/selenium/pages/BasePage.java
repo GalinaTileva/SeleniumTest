@@ -22,11 +22,16 @@ public class BasePage {
     }
 
     //Wait
-    public WebElement waitVisibilityElement(WebElement by) {
-        return wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(by)));
+    public void waitForElementToBeVisible(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public WebElement waitVisibilityElement2(WebElement el, By by) {
-        return wait.until(ExpectedConditions.refreshed(ExpectedConditions.presenceOfNestedElementLocatedBy(el, by)));
+
+    public void waitForElementToBePresent(By locator) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    public void waitForElementToBeStale(WebElement element) {
+        wait.until(ExpectedConditions.stalenessOf(element));
     }
 }
