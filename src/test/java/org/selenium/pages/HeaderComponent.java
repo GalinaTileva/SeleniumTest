@@ -8,9 +8,6 @@ public class HeaderComponent extends BasePage {
 
     @FindBy(css = ".shopping_cart_link")
     private WebElement catyIcon;
-    public HeaderComponent(WebDriver driver) {
-        super(driver);
-    }
 
     public void openCartPageByIcon() {
         catyIcon.click();

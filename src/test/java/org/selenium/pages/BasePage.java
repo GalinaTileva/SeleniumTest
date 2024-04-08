@@ -1,5 +1,6 @@
 package org.selenium.pages;
 
+import org.example.driver.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -12,12 +13,12 @@ import java.time.Duration;
 
 public class BasePage {
 
-    public WebDriver driver;
+    private WebDriver driver;
     public WebDriverWait wait;
 
     //Constructor
-    public BasePage(WebDriver driver) {
-        this.driver = driver;
+    public BasePage() {
+        this.driver = DriverFactory.getDriver();
         PageFactory.initElements(driver, this);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }

@@ -1,4 +1,4 @@
-package org.selenium;
+package org.selenium.tests;
 
 import org.selenium.base.MainTest;
 import org.selenium.pages.LoginPage;
@@ -13,11 +13,11 @@ public class LoginTest extends MainTest {
 
     @Test
     public void testSuccessfulLogin() {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         loginPage.setUsername("standard_user");
         loginPage.setPassword("secret_sauce");
         loginPage.clickLoginButton();
-        productsPage = new ProductsPage(driver);
+        productsPage = new ProductsPage();
 
         Assert.assertEquals(productsPage.getPageTitle(), "Products");
     }
@@ -26,7 +26,7 @@ public class LoginTest extends MainTest {
     @Test
     public void testNegativeWithEmptyCredentials() {
         SoftAssert soft = new SoftAssert();
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
 
         loginPage.setUsername("");
         loginPage.setPassword("secret_sauce");

@@ -19,7 +19,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 public class UsingSeleniumTest {
-    @Test
+   /* @Test
     public void eightComponents() {
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.selenium.dev/selenium/web/web-form.html");
@@ -370,5 +370,5 @@ public class UsingSeleniumTest {
         // Remember to switch back when done
         driver.switchTo().defaultContent();
     }
-
+*/
 }

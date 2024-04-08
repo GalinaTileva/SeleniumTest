@@ -19,10 +19,6 @@ public class LoginPage extends BasePage {
     @FindBy(css = ".error-message-container")
     private WebElement errorMessageContainer;
 
-    public LoginPage(WebDriver driver) {
-        super(driver);
-    }
-
     public void setUsername(String username) {
         usernameField.clear();
         usernameField.sendKeys(username);
