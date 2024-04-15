@@ -49,6 +49,8 @@ public class LoginTest extends MainTest {
         Assert.assertEquals(productsPage.getPageTitle(), "Products");
     }
 
+    // allure serve target/allure-results;
+
 
 
 }
