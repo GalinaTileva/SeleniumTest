@@ -10,7 +10,6 @@ public class ProductsPage extends BasePage{
     @FindBy(className = "title")
     private WebElement pageTitle;
 
-
     public String getPageTitle() {
         return pageTitle.getText();
     }

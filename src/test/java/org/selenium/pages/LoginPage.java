@@ -1,10 +1,8 @@
 package org.selenium.pages;
 
-import io.qameta.allure.Step;
-import org.openqa.selenium.WebDriver;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends BasePage {
 
@@ -20,20 +18,17 @@ public class LoginPage extends BasePage {
     @FindBy(css = ".error-message-container")
     private WebElement errorMessageContainer;
 
-
-    @Step("Set username")
     public void setUsername(String username) {
         usernameField.clear();
         usernameField.sendKeys(username);
     }
 
-    @Step("Set password")
+
     public void setPassword(String password) {
         passwordField.clear();
         passwordField.sendKeys(password);
     }
 
-    @Step("Click login")
     public void clickLoginButton() {
         loginButton.click();
     }

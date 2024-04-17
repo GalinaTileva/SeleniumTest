@@ -33,7 +33,7 @@ public class DriverFactory {
        // Map<String, String> mobileEmulation = Map.of("deviceName", "Nexus 5");
         ChromeOptions options = new ChromeOptions();
         options.addArguments(IGNORE_CERTIFICATE);
-        options.addArguments("headless=true");
+       // options.addArguments("headless=true");
         options.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.DISMISS);
       //  options.setExperimentalOption("mobileEmulation", mobileEmulation);
 
