@@ -12,4 +12,6 @@ public class HeaderComponent extends BasePage {
     public void openCartPageByIcon() {
         catyIcon.click();
     }
+
+
 }
